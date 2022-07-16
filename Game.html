@@ -9,6 +9,22 @@ var ball=50;
 var ballY = 50 ; 
 var ballSpeedX = 10; 
 var ballSpeedY = 4; 
+var paddel1Y=250;
+const PADDEL_HEIGHT = 250;
+
+function calculateMousePos(evt){
+   var rect = canvas.getBoundingClientRect();
+   var root = document.documentElement; 
+   var mouseX = evt.clientX - rect.left - root.scrollLeft;
+   var mouseY = evt.clientY - rect.top - root.scrollTop; 
+   return{
+           x:mouseX,
+           y:mouseY
+
+};
+
+
+}
 window.onload = function(){
 
 console.log("Hello To Java Script...");
@@ -19,7 +35,16 @@ var framesPerSecond = 30;
 setInterval( function() {
 moveEverything();
 drawEverything();},1000/framesPerSecond);
+
+ canvas.addEventListener('mousemove' ,
+    function(evt){
+            var mousePos = calculateMousePos(evt);
+            paddel1Y = mousePos.y - (PADDEL_HEIGHT/2);
+           });
 }
+
+  
+
 
 function moveEverything(){
 
@@ -30,7 +55,7 @@ if(ball > canvas.width){
     ballSpeedX = -ballSpeedX;
 }
 if (ball < 0){
-     ballSpeedX = -ballSpeedX;   
+     ballReset();   
 }
 if (ballY >canvas.height){
     ballSpeedY = -ballSpeedY;
@@ -41,10 +66,18 @@ if (ballY < 0){
  
 }
 
+function ballReset(){
+      ballSpeedX = -ballSpeedX;
+     ballX = canvas.width/2;
+     ballY = canvas.height/2;
+   
+ 
+}
+
 function drawEverything(){
 console.log(ball);
 colorRect(0,0,canvas.width,canvas.height,'black');
-colorRect(0,210,10,100,'white');
+colorRect(0,paddel1Y,10,PADDEL_HEIGHT,'white');
 //colorRect(ball,100,10,10,'red');
 //Draw A circle
 colorCircil(ball, ballY,10, 'white');
